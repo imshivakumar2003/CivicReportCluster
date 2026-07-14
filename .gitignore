@@ -1,0 +1,12 @@
+# Node modules
+node_modules/
+
+# Cache
+.cache/
+frontend/node_modules/.cache/
+
+# VS Code History
+.history/
+
+# Environment
+.env

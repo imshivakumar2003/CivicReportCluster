@@ -13,6 +13,14 @@ import {
   X, User, Mail, Phone, MapPinHouse, Hash, ShieldCheck
 } from 'lucide-react';
 
+// Helper: convert address object or string into a readable string
+const formatAddress = (addr) => {
+  if (!addr) return '—';
+  if (typeof addr === 'string') return addr;
+  const { line, city, district, state, pincode } = addr;
+  return [line, city, district, state, pincode].filter(Boolean).join(', ') || '—';
+};
+
 const AdminDashboard = () => {
   const [complaints, setComplaints] = useState([]);
   const [stats, setStats] = useState({ total: 0, pending: 0, inProgress: 0, resolved: 0 });
@@ -301,7 +309,7 @@ const AdminDashboard = () => {
                         </td>
                         <td className="px-6 py-4 text-sm text-slate-600">{user.email || '—'}</td>
                         <td className="px-6 py-4 text-sm text-slate-600">{user.phone || '—'}</td>
-                        <td className="px-6 py-4 text-sm text-slate-600 max-w-[200px] truncate">{user.address || '—'}</td>
+                        <td className="px-6 py-4 text-sm text-slate-600 max-w-[200px] truncate">{formatAddress(user.address)}</td>
                         <td className="px-6 py-4 text-sm text-slate-600">{user.nationalId || '—'}</td>
                         <td className="px-6 py-4">
                           <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-black uppercase ${user.role === 'admin' ? 'bg-purple-50 text-purple-600' : 'bg-slate-100 text-slate-500'}`}>
@@ -466,7 +474,7 @@ const AdminDashboard = () => {
                     <div className="flex items-center gap-2 text-sm"><User size={16} className="text-blue-500" /><span className="font-medium text-slate-700">{selectedComplaint.userId.name || 'N/A'}</span></div>
                     {selectedComplaint.userId.email && <div className="flex items-center gap-2 text-sm"><Mail size={16} className="text-blue-500" /><span className="text-slate-600">{selectedComplaint.userId.email}</span></div>}
                     {selectedComplaint.userId.phone && <div className="flex items-center gap-2 text-sm"><Phone size={16} className="text-blue-500" /><span className="text-slate-600">{selectedComplaint.userId.phone}</span></div>}
-                    {selectedComplaint.userId.address && <div className="flex items-center gap-2 text-sm"><MapPinHouse size={16} className="text-blue-500" /><span className="text-slate-600">{selectedComplaint.userId.address}</span></div>}
+                    {selectedComplaint.userId.address && <div className="flex items-center gap-2 text-sm"><MapPinHouse size={16} className="text-blue-500" /><span className="text-slate-600">{formatAddress(selectedComplaint.userId.address)}</span></div>}
                     {selectedComplaint.userId.nationalId && <div className="flex items-center gap-2 text-sm"><Hash size={16} className="text-blue-500" /><span className="text-slate-600">{selectedComplaint.userId.nationalId}</span></div>}
                   </div>
                 </div>
